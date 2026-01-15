@@ -1,13 +1,23 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Money Group</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Mini Money Group | Innovations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- ОБЩИЕ СТИЛИ (RESET) --- */
+        /* --- 1. ПЕРЕМЕННЫЕ И БАЗА --- */
+        :root {
+            --primary-bg: #101820;      /* Глубокий темный (почти черный) */
+            --accent-blue: #00a8cc;     /* Яркий голубой */
+            --accent-orange: #ffa41b;   /* Теплый оранжевый */
+            --glass-bg: rgba(255, 255, 255, 0.05); /* Эффект стекла */
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,305 +25,310 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
             line-height: 1.6;
+            overflow-x: hidden; /* Скрываем горизонтальный скролл */
         }
 
-        /* Настройка плавной прокрутки для всей страницы */
         html {
             scroll-behavior: smooth;
         }
 
-        /* --- 1. HEADER (FIXED) --- */
+        /* --- CUSTOM SCROLLBAR --- */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-orange);
+        }
+
+        /* --- 2. HEADER --- */
         header {
-            background-color: #1a253a; /* Темно-синий */
-            color: white;
+            background: rgba(16, 24, 32, 0.95);
+            backdrop-filter: blur(10px);
             padding: 15px 0;
             text-align: center;
-            position: fixed; /* Всегда наверху */
+            position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            height: 60px; /* Фиксированная высота */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         header h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
+            letter-spacing: 3px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Отступ для контента, чтобы он не прятался под фиксированным хедером */
-        .spacer {
-            height: 60px; 
-        }
-
-        /* --- 2. WELCOME BLOCK (HERO) --- */
+        /* --- 3. HERO SECTION (WELCOME) --- */
         .hero {
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
-            color: white;
-            padding: 80px 20px;
+            height: 80vh; /* Почти весь экран */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 20px;
+            background: radial-gradient(circle at center, #1f2d3d 0%, var(--primary-bg) 70%);
+            position: relative;
         }
 
         .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 800;
         }
 
         .hero p {
             font-size: 1.2rem;
-            opacity: 0.9;
+            color: var(--text-muted);
             max-width: 600px;
-            margin: 0 auto;
+            min-height: 1.6em; /* Резерв места для печатающегося текста */
         }
 
-        /* --- 3. STICKY NAV BAR --- */
+        /* Курсор для эффекта печати */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: var(--accent-orange);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* --- 4. STICKY NAV (GLASSMORPHISM) --- */
         .nav-bar {
-            background-color: #2c3e50;
-            padding: 15px 0;
-            text-align: center;
-            position: -webkit-sticky; /* Для Safari */
+            position: -webkit-sticky;
             position: sticky;
-            /* Прилипает ровно под хедером (высота хедера 60px) */
-            top: 60px; 
-            z-index: 999;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .nav-container {
+            top: 60px; /* Высота хедера */
+            z-index: 900;
+            padding: 15px 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            /* Эффект стекла */
+            background: rgba(16, 24, 32, 0.6); 
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .nav-btn {
             text-decoration: none;
-            color: white;
-            background-color: #ff7f50; /* Акцентный оранжевый */
+            color: var(--text-main);
+            margin: 0 10px;
             padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: background 0.3s, transform 0.2s;
-            text-transform: uppercase;
+            border-radius: 30px;
+            font-weight: 600;
             font-size: 0.9rem;
-        }
-
-        .nav-btn:hover {
-            background-color: #e66735;
-            transform: translateY(-2px);
-        }
-
-        /* --- MAIN CONTENT LAYOUT --- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* Корректировка прокрутки (Scroll Offset) */
-        /* Чтобы заголовок секции не перекрывался меню при клике */
-        section {
-            scroll-margin-top: 140px; /* 60px header + 60px nav + отступ */
-            margin-bottom: 60px;
-        }
-
-        h3.section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: #1a253a;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Эффект кнопки */
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--accent-blue);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
         }
         
-        h3.section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background: #ff7f50;
-            margin: 10px auto 0;
+        .nav-btn:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 168, 204, 0.4);
         }
 
-        /* --- ABOUT SECTION --- */
-        .about-text {
-            text-align: center;
-            font-size: 1.1rem;
-            max-width: 800px;
+        /* --- 5. CONTENT LAYOUT --- */
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            color: #555;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 60px 20px;
         }
 
-        /* --- PROJECTS SECTION --- */
+        section {
+            scroll-margin-top: 140px;
+            margin-bottom: 100px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+        .section-title span {
+            font-weight: 800;
+            color: var(--accent-blue);
+        }
+
+        /* --- SCROLL REVEAL ANIMATION CLASS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- ABOUT CARD --- */
+        .about-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        /* --- PROJECTS GRID --- */
         .projects-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            justify-items: center;
         }
 
         .project-card {
-            background: white;
-            border-radius: 15px;
-            width: 300px;
+            background: #1a2634; /* Чуть светлее фона */
+            border-radius: 25px;
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            display: flex;
-            flex-direction: column;
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--accent-blue);
         }
 
-        .icon-placeholder {
+        /* --- ICONS STYLING --- */
+        .icon-wrapper {
             width: 100%;
-            height: 180px;
-            background-color: #ddd;
+            aspect-ratio: 1 / 1; /* Квадрат */
+            background: #2a3b4c;
+            border-radius: 20px; /* 15-20% от размера */
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888;
-            font-weight: bold;
-            font-size: 1.2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5); /* Внутренняя тень */
             position: relative;
         }
-        
-        /* Имитация иконки внутри плейсхолдера */
-        .icon-placeholder::before {
-            content: 'ICON';
-            border: 2px dashed #999;
-            padding: 20px;
-            border-radius: 50%;
-        }
 
-        .card-body {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+        .project-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Заполняет квадрат, не искажая пропорции */
+            transition: transform 0.5s ease;
+        }
+        
+        /* Эффект зума картинки при наведении на карточку */
+        .project-card:hover .project-icon {
+            transform: scale(1.1);
         }
 
         .card-body h4 {
+            font-size: 1.5rem;
             margin-bottom: 10px;
-            color: #1a253a;
-            font-size: 1.3rem;
+            color: var(--accent-orange);
         }
 
         .card-body p {
             font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 15px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
         }
 
-        .badge {
-            margin-top: auto;
-            display: inline-block;
-            background: #eef2f3;
-            color: #1a253a;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .future-projects {
-            text-align: center;
-            margin-top: 30px;
-            font-style: italic;
-            color: #777;
-        }
-
-        /* --- CONTACTS / DATA SECTION --- */
-        .info-block {
-            background: white;
-            border-left: 5px solid #1a253a;
-            padding: 20px;
-            margin: 10px auto;
-            max-width: 600px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .info-item {
-            margin-bottom: 10px;
+        /* --- CONTACTS --- */
+        .contacts-wrapper {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            background: var(--glass-bg);
+            padding: 20px 30px;
+            border-radius: 15px;
+            display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            align-items: center;
+            border: 1px solid var(--glass-border);
+            transition: background 0.3s;
         }
 
-        .info-item:last-child {
-            border-bottom: none;
+        .contact-item:hover {
+            background: rgba(255,255,255,0.1);
         }
 
-        .info-label {
-            font-weight: bold;
-            color: #1a253a;
+        .contact-label {
+            color: var(--accent-blue);
+            font-weight: 600;
         }
-
-        .info-value {
-            color: #555;
-            text-align: right;
+        
+        .contact-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-link:hover {
+            color: var(--accent-orange);
         }
 
         /* --- FOOTER --- */
         footer {
-            background-color: #1a253a;
-            color: #aaa;
             text-align: center;
-            padding: 30px 20px;
-            margin-top: 50px;
-        }
-
-        footer p {
-            margin: 5px 0;
+            padding: 40px;
+            background: #0b1116;
+            color: #555;
             font-size: 0.9rem;
+            border-top: 1px solid #222;
         }
 
-        footer strong {
-            color: white;
-        }
-
-        /* --- MOBILE RESPONSIVE --- */
+        /* --- MOBILE ADAPTATION --- */
         @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 2rem;
-            }
-            
-            .nav-container {
-                gap: 10px;
-            }
-            
-            .nav-btn {
-                padding: 8px 15px;
-                font-size: 0.8rem;
-                flex: 1 1 auto; /* Кнопки растягиваются */
-                text-align: center;
-            }
-
-            .info-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .info-value {
-                text-align: left;
-                margin-top: 2px;
-            }
+            .hero h2 { font-size: 2rem; }
+            .nav-bar { flex-wrap: wrap; gap: 10px; }
+            .nav-btn { font-size: 0.8rem; padding: 8px 15px; margin: 0 5px; }
+            .contact-item { flex-direction: column; text-align: left; align-items: flex-start; gap: 5px; }
         }
     </style>
 </head>
@@ -322,80 +337,77 @@
     <header>
         <h1>Mini Money Group</h1>
     </header>
-    
-    <div class="spacer"></div>
 
     <div class="hero">
-        <h2>Инновации для повседневной жизни</h2>
-        <p>Мы создаем будущее удобства в Узбекистане, объединяя технологии и заботу о людях.</p>
+        <h2>Будущее <span style="color:var(--accent-blue)">Здесь</span></h2>
+        <p><span id="typewriter"></span><span class="cursor">|</span></p>
     </div>
 
     <nav class="nav-bar">
-        <div class="nav-container">
-            <a href="#about" class="nav-btn">О Нас</a>
-            <a href="#projects" class="nav-btn">Проекты</a>
-            <a href="#contacts" class="nav-btn">Контакты</a>
-        </div>
+        <a href="#about" class="nav-btn">О Нас</a>
+        <a href="#projects" class="nav-btn">Проекты</a>
+        <a href="#contacts" class="nav-btn">Контакты</a>
     </nav>
 
     <div class="container">
-
-        <section id="about">
-            <h3 class="section-title">Кто мы?</h3>
-            <div class="about-text">
-                <p>Я — индивидуальный предприниматель, движимый страстью помогать людям и делать их жизнь проще. Моя цель — создавать цифровые продукты, которые решают реальные повседневные задачи.</p>
+        
+        <section id="about" class="reveal">
+            <h3 class="section-title">Наша <span>Миссия</span></h3>
+            <div class="about-card">
+                <p>Я — индивидуальный предприниматель, движимый страстью помогать людям. Моя философия проста: технологии должны быть незаметными, но незаменимыми.</p>
                 <br>
-                <p><strong>Mini Money Group</strong> — это не просто разработка, это философия удобства. В данный момент я сотрудничаю с талантливыми фрилансерами и разработчиками, объединяя лучшие умы для реализации амбициозных идей на рынке Узбекистана и за его пределами.</p>
+                <p>Мы создаем инструменты, которые экономят время, нервы и деньги. От умной аренды до микрофинансовых решений — <strong>Mini Money Group</strong> меняет правила игры на рынке Узбекистана.</p>
             </div>
         </section>
 
-        <section id="projects">
-            <h3 class="section-title">Наши Проекты</h3>
+        <section id="projects" class="reveal">
+            <h3 class="section-title">Активные <span>Проекты</span></h3>
             <div class="projects-grid">
                 
                 <div class="project-card">
-                    <div class="icon-placeholder" style="background-color: #e3f2fd;">
-                        </div>
+                    <div class="icon-wrapper">
+                        <img src="4rent.png" alt="4rent Logo" class="project-icon" onerror="this.style.display='none'; this.parentNode.style.background='#333';">
+                    </div>
                     <div class="card-body">
                         <h4>4rent</h4>
-                        <p>Умный маркетплейс аренды. Аналог Avito, но с полным фокусом на рынок недвижимости и аренды вещей в Узбекистане. Быстро, удобно, надежно.</p>
-                        <span class="badge">Marketplace</span>
+                        <p>Умный маркетплейс аренды для Узбекистана. Аналог мировых гигантов, но с душой и пониманием местного рынка.</p>
                     </div>
                 </div>
 
                 <div class="project-card">
-                    <div class="icon-placeholder" style="background-color: #fff3e0;">
-                        </div>
+                    <div class="icon-wrapper">
+                        <img src="mini-money.jpg" alt="Mini Money Logo" class="project-icon" onerror="this.style.display='none'; this.parentNode.style.background='#333';">
+                    </div>
                     <div class="card-body">
                         <h4>Mini Money App</h4>
-                        <p>Приложение для решения проблемы сдачи. Удобный инструмент для выдачи мелких сумм и не только. Забудьте о проблеме отсутствия мелочи в магазинах.</p>
-                        <span class="badge">FinTech</span>
+                        <p>Революция в малых платежах. Приложение для выдачи сдачи и микро-транзакций. Забудьте про отсутствие мелочи.</p>
                     </div>
                 </div>
 
             </div>
-            <p class="future-projects">Многие другие инновационные проекты уже в активной разработке...</p>
+            <p style="text-align: center; margin-top: 40px; color: #666; font-style:italic;">
+                ... и еще 3 секретных проекта в разработке
+            </p>
         </section>
 
-        <section id="contacts">
-            <h3 class="section-title">Информация о компании</h3>
-            
-            <div class="info-block">
-                <div class="info-item">
-                    <span class="info-label">Владелец:</span>
-                    <span class="info-value">Maxmudov Jaxongirxoja Turaxodjaevich</span>
+        <section id="contacts" class="reveal">
+            <h3 class="section-title">Связь с <span>Нами</span></h3>
+            <div class="contacts-wrapper">
+                <div class="contact-item">
+                    <span class="contact-label">Владелец</span>
+                    <span>Maxmudov Jaxongirxoja Turaxodjaevich</span>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Телефон:</span>
-                    <span class="info-value"><a href="tel:+998911907770" style="color:inherit; text-decoration:none;">+998 91 190 7770</a></span>
+                <div class="contact-item">
+                    <span class="contact-label">Телефон</span>
+                    <a href="tel:+998911907770" class="contact-link">+998 91 190 7770</a>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">DUNS Number:</span>
-                    <span class="info-value">933905991</span>
+                <div class="contact-item">
+                    <span class="contact-label">DUNS</span>
+                    <span>933905991</span>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Локация:</span>
-                    <span class="info-value">Узбекистан</span>
+                <div class="contact-item">
+                    <span class="contact-label">Локация</span>
+                    <span>Tashkent, Uzbekistan</span>
                 </div>
             </div>
         </section>
@@ -403,10 +415,45 @@
     </div>
 
     <footer>
-        <p><strong>Mini Money Group</strong> &copy; 2026</p>
-        <p>Maxmudov Jaxongirxoja Turaxodjaevich</p>
-        <p>All Rights Reserved.</p>
+        <p>Mini Money Group &copy; 2026. All Rights Reserved.</p>
+        <p style="opacity: 0.5; margin-top: 5px;">Designed by AI & Human Synergy</p>
     </footer>
 
+    <script>
+        // 1. SCROLL REVEAL (Появление блоков)
+        // Используем IntersectionObserver для отслеживания появления элементов на экране
+        const observerOptions = {
+            threshold: 0.15 // Блок должен показаться на 15%
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active'); // Добавляем класс анимации
+                }
+            });
+        }, observerOptions);
+
+        // Следим за всеми элементами с классом .reveal
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 2. TYPEWRITER EFFECT (Печатающая машинка)
+        const textToType = "Инновации для повседневной жизни. Мы строим удобство.";
+        const typeWriterElement = document.getElementById('typewriter');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < textToType.length) {
+                typeWriterElement.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50); // Скорость печати (50мс)
+            }
+        }
+
+        // Запускаем печать после загрузки страницы
+        window.onload = typeWriter;
+    </script>
 </body>
 </html>
