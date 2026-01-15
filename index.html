@@ -3,280 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Money Group | Innovations</title>
+    <title>Mini Money Group | Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. ПЕРЕМЕННЫЕ И БАЗА --- */
         :root {
-            --primary-bg: #101820;      /* Глубокий темный (почти черный) */
-            --accent-blue: #00a8cc;     /* Яркий голубой */
-            --accent-orange: #ffa41b;   /* Теплый оранжевый */
-            --glass-bg: rgba(255, 255, 255, 0.05); /* Эффект стекла */
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-dark: #080c10;
+            --accent-blue: #00d2ff;
+            --accent-orange: #ff9d00;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --text-main: #ffffff;
             --text-muted: #b0b0b0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Скрываем стандартный курсор для ПК */
+        @media (pointer: fine) {
+            * { cursor: none !important; }
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--primary-bg);
+            background-color: var(--bg-dark);
             color: var(--text-main);
             line-height: 1.6;
-            overflow-x: hidden; /* Скрываем горизонтальный скролл */
+            overflow-x: hidden;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
-        /* --- CUSTOM SCROLLBAR --- */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--primary-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-orange);
-        }
-
-        /* --- 2. HEADER --- */
-        header {
-            background: rgba(16, 24, 32, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            text-align: center;
+        /* --- 1. AURORA BACKGROUND (Живой фон) --- */
+        .aurora-container {
             position: fixed;
-            top: 0;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--bg-dark);
+        }
+
+        .blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: var(--accent-blue);
+            filter: blur(150px);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: move 20s infinite alternate;
+            top: -10%; left: -10%;
+        }
+
+        .blob.orange {
+            background: var(--accent-orange);
+            width: 500px;
+            height: 500px;
+            right: -10%; bottom: -10%;
+            top: auto; left: auto;
+            animation-duration: 25s;
+            opacity: 0.1;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(100px, 50px) scale(1.1); }
+        }
+
+        /* --- 2. CUSTOM CURSOR --- */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference; /* Интересный эффект наложения цвета */
+        }
+        
+        /* Состояние курсора при наведении на ссылки */
+        body.hovered #cursor {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 210, 255, 0.1);
+            border-color: transparent;
+        }
+
+        /* --- 3. HEADER & NAV --- */
+        header {
+            padding: 20px 0;
+            text-align: center;
+            background: rgba(8, 12, 16, 0.85);
+            backdrop-filter: blur(12px);
+            position: fixed;
             width: 100%;
+            top: 0;
             z-index: 1000;
             border-bottom: 1px solid var(--glass-border);
         }
 
         header h1 {
+            letter-spacing: 4px;
+            font-weight: 800;
             font-size: 1.4rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 800;
             background: linear-gradient(90deg, #fff, var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- 3. HERO SECTION (WELCOME) --- */
+        .nav-bar {
+            position: sticky;
+            top: 70px;
+            z-index: 900;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(8, 12, 16, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            padding: 10px 25px;
+            border-radius: 30px;
+            transition: 0.3s;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .nav-link:hover {
+            background: var(--accent-blue);
+            color: #000;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+        }
+
+        /* --- 4. HERO SECTION --- */
         .hero {
-            height: 80vh; /* Почти весь экран */
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
-            background: radial-gradient(circle at center, #1f2d3d 0%, var(--primary-bg) 70%);
-            position: relative;
+            padding: 100px 20px 50px;
         }
 
-        .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            min-height: 1.6em; /* Резерв места для печатающегося текста */
-        }
-
-        /* Курсор для эффекта печати */
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            background-color: var(--accent-orange);
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* --- 4. STICKY NAV (GLASSMORPHISM) --- */
-        .nav-bar {
-            position: -webkit-sticky;
-            position: sticky;
-            top: 60px; /* Высота хедера */
-            z-index: 900;
-            padding: 15px 0;
-            display: flex;
-            justify-content: center;
-            /* Эффект стекла */
-            background: rgba(16, 24, 32, 0.6); 
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .nav-btn {
-            text-decoration: none;
-            color: var(--text-main);
-            margin: 0 10px;
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            border: 1px solid transparent;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Эффект кнопки */
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--accent-blue);
-            z-index: -1;
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-
-        .nav-btn:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
+        .hero h2 { 
+            font-size: 3rem; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            line-height: 1.2;
         }
         
-        .nav-btn:hover {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 15px rgba(0, 168, 204, 0.4);
-        }
-
-        /* --- 5. CONTENT LAYOUT --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        section {
-            scroll-margin-top: 140px;
-            margin-bottom: 100px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            font-weight: 300;
-        }
-        .section-title span {
-            font-weight: 800;
+        .hero span.highlight {
             color: var(--accent-blue);
         }
 
-        /* --- SCROLL REVEAL ANIMATION CLASS --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
+        .hero p { 
+            font-size: 1.2rem; 
+            color: var(--text-muted); 
+            max-width: 700px; 
+            min-height: 1.5em;
         }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+
+        /* --- 5. CONTENT LAYOUT --- */
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+        }
+
+        section {
+            scroll-margin-top: 150px;
+            margin-bottom: 120px;
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .section-header h3 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .section-header .line {
+            width: 80px;
+            height: 4px;
+            background: var(--accent-orange);
+            margin: 0 auto;
+            border-radius: 2px;
         }
 
         /* --- ABOUT CARD --- */
-        .about-card {
-            background: var(--glass-bg);
+        .about-box {
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             padding: 40px;
-            border-radius: 20px;
+            border-radius: 30px;
             text-align: center;
             backdrop-filter: blur(5px);
+            font-size: 1.1rem;
+            color: #ccc;
         }
 
-        /* --- PROJECTS GRID --- */
+        /* --- 6. 3D PROJECTS GRID --- */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
             justify-items: center;
         }
 
-        .project-card {
-            background: #1a2634; /* Чуть светлее фона */
-            border-radius: 25px;
-            width: 100%;
-            max-width: 350px;
-            padding: 20px;
+        .card {
+            background: rgba(20, 25, 30, 0.6);
             border: 1px solid var(--glass-border);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border-color: var(--accent-blue);
-        }
-
-        /* --- ICONS STYLING --- */
-        .icon-wrapper {
+            border-radius: 30px;
+            padding: 30px;
             width: 100%;
-            aspect-ratio: 1 / 1; /* Квадрат */
-            background: #2a3b4c;
-            border-radius: 20px; /* 15-20% от размера */
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            max-width: 400px;
+            
+            /* 3D Properties */
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .icon-box {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #111;
+            border-radius: 20px;
+            margin-bottom: 25px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5); /* Внутренняя тень */
-            position: relative;
+            
+            /* Элемент выпирает в 3D */
+            transform: translateZ(40px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
-        .project-icon {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Заполняет квадрат, не искажая пропорции */
-            transition: transform 0.5s ease;
+        .icon-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+
+        .card-content {
+            transform: translateZ(20px);
+        }
+
+        .card h4 { 
+            font-size: 1.8rem; 
+            margin-bottom: 10px; 
+            color: white;
         }
         
-        /* Эффект зума картинки при наведении на карточку */
-        .project-card:hover .project-icon {
-            transform: scale(1.1);
-        }
-
-        .card-body h4 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--accent-orange);
-        }
-
-        .card-body p {
+        .card p { 
+            color: var(--text-muted); 
             font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
         }
 
-        /* --- CONTACTS --- */
-        .contacts-wrapper {
+        .card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
+        }
+
+        /* --- 7. CONTACTS --- */
+        .contact-list {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -285,129 +291,152 @@
         }
 
         .contact-item {
-            background: var(--glass-bg);
-            padding: 20px 30px;
-            border-radius: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--glass);
+            padding: 20px 30px;
+            border-radius: 20px;
             border: 1px solid var(--glass-border);
-            transition: background 0.3s;
+            transition: 0.3s;
         }
 
         .contact-item:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
+            transform: translateX(10px);
         }
 
-        .contact-label {
-            color: var(--accent-blue);
-            font-weight: 600;
+        .c-label { color: var(--accent-blue); font-weight: 700; }
+        .c-value { text-align: right; color: white; }
+        .c-value a { color: white; text-decoration: none; }
+
+        /* --- ANIMATIONS --- */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: all 1s ease; 
         }
-        
-        .contact-link {
-            color: white;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .contact-link:hover {
-            color: var(--accent-orange);
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
         }
 
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 40px;
-            background: #0b1116;
+        footer { 
+            text-align: center; 
+            padding: 50px 20px; 
+            border-top: 1px solid var(--glass-border); 
             color: #555;
             font-size: 0.9rem;
-            border-top: 1px solid #222;
+            margin-top: 50px;
+            background: #05080a;
         }
 
-        /* --- MOBILE ADAPTATION --- */
+        /* --- MOBILE --- */
         @media (max-width: 768px) {
-            .hero h2 { font-size: 2rem; }
+            .hero h2 { font-size: 2.2rem; }
             .nav-bar { flex-wrap: wrap; gap: 10px; }
-            .nav-btn { font-size: 0.8rem; padding: 8px 15px; margin: 0 5px; }
-            .contact-item { flex-direction: column; text-align: left; align-items: flex-start; gap: 5px; }
+            .nav-link { font-size: 0.75rem; padding: 8px 15px; margin: 0; }
+            .contact-item { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .c-value { text-align: left; }
+            /* Отключаем кастомный курсор на тач-устройствах */
+            #cursor { display: none; }
         }
     </style>
 </head>
 <body>
+
+    <div id="cursor"></div>
+
+    <div class="aurora-container">
+        <div class="blob"></div>
+        <div class="blob orange"></div>
+    </div>
 
     <header>
         <h1>Mini Money Group</h1>
     </header>
 
     <div class="hero">
-        <h2>Будущее <span style="color:var(--accent-blue)">Здесь</span></h2>
-        <p><span id="typewriter"></span><span class="cursor">|</span></p>
+        <h2>Инновации для <br><span class="highlight">повседневной жизни</span></h2>
+        <p id="typewriter"></p>
     </div>
 
     <nav class="nav-bar">
-        <a href="#about" class="nav-btn">О Нас</a>
-        <a href="#projects" class="nav-btn">Проекты</a>
-        <a href="#contacts" class="nav-btn">Контакты</a>
+        <a href="#about" class="nav-link hover-target">О Нас</a>
+        <a href="#projects" class="nav-link hover-target">Проекты</a>
+        <a href="#contacts" class="nav-link hover-target">Контакты</a>
     </nav>
 
     <div class="container">
         
         <section id="about" class="reveal">
-            <h3 class="section-title">Наша <span>Миссия</span></h3>
-            <div class="about-card">
-                <p>Я — индивидуальный предприниматель, движимый страстью помогать людям. Моя философия проста: технологии должны быть незаметными, но незаменимыми.</p>
+            <div class="section-header">
+                <h3>Кто мы?</h3>
+                <div class="line"></div>
+            </div>
+            <div class="about-box tilt-card"> <p>Я — индивидуальный предприниматель, движимый страстью помогать людям. Моя цель — создавать цифровые продукты, которые решают реальные повседневные задачи.</p>
                 <br>
-                <p>Мы создаем инструменты, которые экономят время, нервы и деньги. От умной аренды до микрофинансовых решений — <strong>Mini Money Group</strong> меняет правила игры на рынке Узбекистана.</p>
+                <p>Мы работаем с лучшими фрилансерами и инженерами, чтобы создавать удобные решения для рынка Узбекистана.</p>
             </div>
         </section>
 
         <section id="projects" class="reveal">
-            <h3 class="section-title">Активные <span>Проекты</span></h3>
+            <div class="section-header">
+                <h3>Наши Проекты</h3>
+                <div class="line"></div>
+            </div>
+            
             <div class="projects-grid">
                 
-                <div class="project-card">
-                    <div class="icon-wrapper">
-                        <img src="4rent.png" alt="4rent Logo" class="project-icon" onerror="this.style.display='none'; this.parentNode.style.background='#333';">
+                <div class="card tilt-card hover-target">
+                    <div class="icon-box">
+                        <img src="4rent.png" alt="4rent App" onerror="this.style.display='none'">
                     </div>
-                    <div class="card-body">
-                        <h4>4RENT</h4>
-                        <p>Умный маркетплейс аренды для Узбекистана. Аналог мировых гигантов, но с душой и пониманием местного рынка.</p>
+                    <div class="card-content">
+                        <h4>4rent</h4>
+                        <p>Умный маркетплейс аренды. Аналог Avito, но с полным фокусом на рынок недвижимости и аренды вещей в Узбекистане. Быстро, удобно, надежно.</p>
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <div class="icon-wrapper">
-                        <img src="mini-money.jpg" alt="Mini Money Logo" class="project-icon" onerror="this.style.display='none'; this.parentNode.style.background='#333';">
+                <div class="card tilt-card hover-target">
+                    <div class="icon-box">
+                        <img src="mini-money.jpg" alt="Mini Money App" onerror="this.style.display='none'">
                     </div>
-                    <div class="card-body">
-                        <h4>MiniMoney</h4>
-                        <p>Революция в малых платежах. Приложение для выдачи сдачи и микро-транзакций. Забудьте про отсутствие мелочи.</p>
+                    <div class="card-content">
+                        <h4>Mini Money</h4>
+                        <p>Приложение для решения проблемы сдачи. Удобный инструмент для выдачи мелких сумм и не только. Забудьте о проблеме отсутствия мелочи.</p>
                     </div>
                 </div>
 
             </div>
-            <p style="text-align: center; margin-top: 40px; color: #666; font-style:italic;">
-                ... и еще 3 секретных проекта в разработке
+            
+            <p style="text-align:center; margin-top:50px; opacity:0.6; font-style:italic;">
+                И еще несколько проектов в разработке...
             </p>
         </section>
 
         <section id="contacts" class="reveal">
-            <h3 class="section-title">Связь с <span>Нами</span></h3>
-            <div class="contacts-wrapper">
-                <div class="contact-item">
-                    <span class="contact-label">Владелец</span>
-                    <span>Maxmudov Jaxongirxoja Turaxodjaevich</span>
+            <div class="section-header">
+                <h3>Контакты</h3>
+                <div class="line"></div>
+            </div>
+
+            <div class="contact-list">
+                <div class="contact-item hover-target">
+                    <span class="c-label">Владелец</span>
+                    <span class="c-value">Maxmudov Jaxongirxoja Turaxodjaevich</span>
                 </div>
-                <div class="contact-item">
-                    <span class="contact-label">Телефон</span>
-                    <a href="tel:+998911907770" class="contact-link">+998 91 190 7770</a>
+                <div class="contact-item hover-target">
+                    <span class="c-label">Телефон</span>
+                    <span class="c-value"><a href="tel:+998911907770">+998 91 190 7770</a></span>
                 </div>
-                <div class="contact-item">
-                    <span class="contact-label">DUNS</span>
-                    <span>933905991</span>
+                <div class="contact-item hover-target">
+                    <span class="c-label">DUNS Number</span>
+                    <span class="c-value">933905991</span>
                 </div>
-                <div class="contact-item">
-                    <span class="contact-label">Локация</span>
-                    <span>Tashkent, Uzbekistan</span>
+                <div class="contact-item hover-target">
+                    <span class="c-label">Локация</span>
+                    <span class="c-value">Tashkent, Uzbekistan</span>
                 </div>
             </div>
         </section>
@@ -415,32 +444,13 @@
     </div>
 
     <footer>
-        <p>Mini Money Group &copy; 2026. All Rights Reserved.</p>
-        <p style="opacity: 0.5; margin-top: 5px;">Designed by AI & Human Synergy</p>
+        <p><strong>Mini Money Group</strong> &copy; 2026</p>
+        <p>All Rights Reserved.</p>
     </footer>
 
     <script>
-        // 1. SCROLL REVEAL (Появление блоков)
-        // Используем IntersectionObserver для отслеживания появления элементов на экране
-        const observerOptions = {
-            threshold: 0.15 // Блок должен показаться на 15%
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active'); // Добавляем класс анимации
-                }
-            });
-        }, observerOptions);
-
-        // Следим за всеми элементами с классом .reveal
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
-
-        // 2. TYPEWRITER EFFECT (Печатающая машинка)
-        const textToType = "Инновации для повседневной жизни. Мы строим удобство.";
+        // --- 1. TYPEWRITER EFFECT ---
+        const textToType = "Мы создаем будущее удобства в Узбекистане.";
         const typeWriterElement = document.getElementById('typewriter');
         let i = 0;
 
@@ -448,12 +458,73 @@
             if (i < textToType.length) {
                 typeWriterElement.innerHTML += textToType.charAt(i);
                 i++;
-                setTimeout(typeWriter, 50); // Скорость печати (50мс)
+                setTimeout(typeWriter, 40); // Скорость печати
             }
         }
+        // Запуск через секунду после загрузки
+        window.onload = () => setTimeout(typeWriter, 500);
 
-        // Запускаем печать после загрузки страницы
-        window.onload = typeWriter;
+
+        // --- 2. SCROLL REVEAL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+        // --- 3. 3D TILT EFFECT (VANILLA JS) ---
+        // Ищем все элементы с классом tilt-card
+        const cards = document.querySelectorAll('.tilt-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Центр карточки
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Вычисляем наклон (делим на 15, чтобы не было слишком резко)
+                const rotateX = (centerY - y) / 15; 
+                const rotateY = (x - centerX) / 15;
+
+                // Применяем стили
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            // Сброс при уходе мышки
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        });
+
+
+        // --- 4. CUSTOM CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target, a');
+
+        // Движение курсора
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Эффект при наведении на активные элементы
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovered');
+            });
+            target.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovered');
+            });
+        });
     </script>
 </body>
 </html>
